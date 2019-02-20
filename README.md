@@ -1,3 +1,3 @@
-# Directory Scraper
+# UWB Scraper
 
-Scraper for the directory and the course catalog.
+Scraper for the UWB course catalog.
