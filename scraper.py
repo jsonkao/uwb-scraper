@@ -45,19 +45,25 @@ def parseForSection(contents):
             header = component.string.replace(':', '').strip()
     return section
 
+CODE_PATTERN = re.compile(r'[A-Z]{1,2}\d{4}')
 def getCoursesFromPath(p):
     r = requests.get(BASE_URL + p)
     r.raise_for_status()
     soup = BeautifulSoup(r.text, 'lxml')
     subject = getSubjectFromPath(p)
     course = None
+    courseNumber = None
     courses = []
     for tr in soup.table.find_all('tr')[2:-1]:
         if tr.td.get('colspan') is not None:        
             course = tr.td.b.contents[-1]
+            courseNumber = CODE_PATTERN.search(tr.td.b.contents[0])
+            if courseNumber is not None:
+                courseNumber = courseNumber.group()
             continue
         section = parseForSection(tr.contents)
         section['course'] = course
+        section['courseNumber'] = courseNumber
         section['subject'] = subject
         courses.append(section)
     return courses

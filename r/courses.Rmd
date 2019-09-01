@@ -1,0 +1,37 @@
+---
+title: "courses"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(jsonlite)
+```
+
+# Faculty demand
+
+```{r}
+courses <- fromJSON("../archive/2019-08-31.json")
+```
+
+```{r}
+# Two keys: "Instructor" and "Instructors"
+
+courses %>% 
+  # filter(Points >= 3) %>% 
+  filter(!is.na(Location)) %>% 
+  filter(subject != "PHED" & subject != "AUDT") %>% 
+  filter(!grepl("REC", course)) %>% 
+  filter(!grepl("DISC", course)) %>% 
+  filter(!grepl("-DIS", course)) %>% 
+  count(Instructor) %>% 
+  filter(!is.na(Instructor)) %>% 
+  arrange(-n) %>% 
+  head(50) %>% 
+  ggplot(aes(reorder(Instructor, n), n)) +
+  geom_col() +
+  coord_flip()
+```
+
