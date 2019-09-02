@@ -24,10 +24,10 @@ def getSubjectFromPath(p):
     matches = subjPattern.findall(p)
     if len(matches) == 0:
         return None
-    return matches[0] 
+    return matches[0]
 
-def parseForSection(contents):   
-    components = contents[2].contents 
+def parseForSection(contents):
+    components = contents[2].contents
     section = {
          'number': contents[0].a.string.replace('Section ', ''),
     }
@@ -55,7 +55,7 @@ def getCoursesFromPath(p):
     courseNumber = None
     courses = []
     for tr in soup.table.find_all('tr')[2:-1]:
-        if tr.td.get('colspan') is not None:        
+        if tr.td.get('colspan') is not None:
             course = tr.td.b.contents[-1]
             courseNumber = CODE_PATTERN.search(tr.td.b.contents[0])
             if courseNumber is not None:
@@ -68,7 +68,7 @@ def getCoursesFromPath(p):
         courses.append(section)
     return courses
 
-def now(hours=False):
+def now(hours=True):
     f_string = '%Y-%m-%d'
     if hours:
         f_string += 'T%H:%M:%S'
@@ -91,17 +91,16 @@ def main():
                 paths.append(href)
 
     print(f'Following {len(paths)} paths...')
-    
+
     courses = []
     for p in paths:
         courses += getCoursesFromPath(p)
-       
+
     print(f'Scanned {len(courses)} courses.')
-    
+
     with open(f'archive/{now()}.json', 'w') as f:
         f.write(json.dumps(courses))
-    
+
 if __name__ == '__main__':
     main()
-    
-    
+
