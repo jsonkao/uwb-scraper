@@ -74,7 +74,7 @@ def now(hours=True):
         f_string += 'T%H:%M:%S'
     return datetime.datetime.now().strftime(f_string)
 
-def main():
+def main(semester):
     paths = []
     for c in range(65, 91):
         rows = getSubjects(chr(c))
@@ -86,7 +86,7 @@ def main():
                     break
                 if '__' in href: # seemingly invalid subjects
                     continue
-                if 'Fall2019' not in href:
+                if semester not in href:
                     continue
                 paths.append(href)
 
@@ -98,9 +98,10 @@ def main():
 
     print(f'Scanned {len(courses)} courses.')
 
-    with open(f'archive/{now()}.json', 'w') as f:
+    with open(f'archive-{semester}/{now()}.json', 'w') as f:
         f.write(json.dumps(courses))
 
 if __name__ == '__main__':
-    main()
+    main('Fall2019')
+    main('Spring2019')
 
