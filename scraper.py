@@ -103,5 +103,5 @@ def main(semester):
 
 if __name__ == '__main__':
     main('Fall2019')
-    main('Spring2019')
+    # main('Spring2019')
 
