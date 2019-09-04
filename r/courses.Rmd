@@ -13,19 +13,18 @@ library(jsonlite)
 # Faculty demand
 
 ```{r}
-courses <- fromJSON("../archive/2019-08-31.json")
+courses_raw <- fromJSON("../archive/2019-08-31.json")
+courses <- courses_raw %>% 
+  filter(!subject %in% c("PHED", "AUDT")) %>% 
+  filter(!grepl("REC", course))
 ```
 
 ```{r}
-# Two keys: "Instructor" and "Instructors"
 
+# Two keys: "Instructor" and "Instructors"
 courses %>% 
   # filter(Points >= 3) %>% 
   filter(!is.na(Location)) %>% 
-  filter(subject != "PHED" & subject != "AUDT") %>% 
-  filter(!grepl("REC", course)) %>% 
-  filter(!grepl("DISC", course)) %>% 
-  filter(!grepl("-DIS", course)) %>% 
   count(Instructor) %>% 
   filter(!is.na(Instructor)) %>% 
   arrange(-n) %>% 
