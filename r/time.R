@@ -24,9 +24,9 @@ courses %>%
   coord_flip()
 
 # Number of courses assigned a location by day
-recourses <- fromJSON("../reassigned_calls.json") %>% 
+tbaCalls <- fromJSON("../tba_calls.json") %>% 
   mutate(date = as.Date(date))
-recourses %>% 
+tbaCalls %>% 
   group_by(date) %>%
   filter(is.na(Location) | Location == "To be announced") %>% 
   count() %>% 
