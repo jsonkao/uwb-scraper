@@ -1,6 +1,6 @@
 # UWB Scraper
 
-Scraping and analyzing course data. Course data on UWB is updated only when a professor or school updates it.
+Scraping and analyzing the UWB course directory. Note that course data on UWB is updated only when a professor or school updates it.
 
 ## Setup
 
