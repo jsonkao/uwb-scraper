@@ -36,7 +36,7 @@ def parseForSection(contents):
         if header is not None:
             text = component.strip()
             try:
-                text = int(text)
+                text = int(text) # this is a mistake. Call numbers may have leading zeroes
             except ValueError:
                 pass # This is expected since not all values are integers (e.g. instructor names)
             section[header] = text
