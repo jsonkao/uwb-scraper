@@ -1,8 +1,8 @@
 from collections import defaultdict
 from bs4 import BeautifulSoup, Tag
-import pandas as pd
 import requests
 import re
+import os
 import json
 import datetime
 
@@ -75,6 +75,10 @@ def now(hours=True):
     return datetime.datetime.now().strftime(f_string)
 
 def main(semester):
+    date = now(hours=False)
+    if any(date in fname for fname in os.listdir(f'./archive-' + semester)):
+        return
+
     paths = []
     for c in range(65, 91):
         rows = getSubjects(chr(c))
