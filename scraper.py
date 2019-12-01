@@ -79,6 +79,8 @@ def main(semester):
     if any(date in fname for fname in os.listdir(f'./archive-' + semester)):
         return
 
+    print('Scraping', semester)
+
     paths = []
     for c in range(65, 91):
         rows = getSubjects(chr(c))
@@ -94,18 +96,17 @@ def main(semester):
                     continue
                 paths.append(href)
 
-    print(f'Following {len(paths)} paths...')
-
     courses = []
-    for p in paths:
+    for i, p in enumerate(paths):
         courses += getCoursesFromPath(p)
+        print(f'Following {i + 1}/{len(paths)} paths...', end='\r')
 
-    print(f'Scanned {len(courses)} courses.')
+    print(f'\nScanned {len(courses)} courses.')
 
     with open(f'archive-{semester}/{now()}.json', 'w') as f:
         f.write(json.dumps(courses))
 
 if __name__ == '__main__':
     main('Fall2019')
-    # main('Spring2019')
+    main('Spring2020')
 
